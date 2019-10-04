@@ -7,7 +7,9 @@
     "@openui5/sap.f": "^1.70.0",
     "@openui5/sap.m": "^1.70.0",
     "@openui5/sap.ui.core": "^1.70.0",
-    "@openui5/themelib_sap_fiori_3": "^1.70.0"
+    "@openui5/themelib_sap_fiori_3": "^1.70.0",
+    "@sap/approuter": "^6.0.1",
+    "mbt": "^0.3.2"
   },
   "devDependencies": {
     "@ui5/cli": "^1.9.0",
@@ -28,5 +30,13 @@
       "@openui5/themelib_sap_fiori_3",
       "ui5-middleware-livereload"
     ]
+  },
+  "engines": {
+    "node": "^10"
+  },
+  "scripts": {
+    "build:mta": "cds build/all && mbt build -p=cf",
+    "deploy:cf": "npm run build:mta && cf deploy mta_archives/${npm_package_name}_${npm_package_version}.mtar",
+    "start": "node node_modules/@sap/approuter/approuter.js"
   }
 }
