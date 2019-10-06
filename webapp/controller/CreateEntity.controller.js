@@ -33,8 +33,12 @@ sap.ui.define(
           const oContext = this.getListBinding().create(oNewEntity);
 
           oContext.created().then(() => this.getRouter().navTo("worklist"));
+        },
+        onPressCancel: function(){
+          history.go(-1);
         }
       }
+      
     );
   }
 );

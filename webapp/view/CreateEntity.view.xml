@@ -11,7 +11,8 @@
     <footer>
       <Toolbar>
         <ToolbarSpacer/>
-        <Button text="Speichern" press="onPressSave"/>
+        <Button text="Speichern" press="onPressSave" type="Emphasized"/>
+        <Button text="Abbrechen" press="onPressCancel"/>
       </Toolbar>
     </footer>
   </Page>
