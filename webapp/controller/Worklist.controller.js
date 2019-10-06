@@ -85,10 +85,9 @@ sap.ui.define([
 			history.go(-1);
 		},
 
-		onPressAdd: function(){
+		onPressAdd: function(){	
 			const oContext = this.byId("table").getBinding("items").create({
-				"firstname" : "Benedikt",
-				"surname" : "Hölker"
+				"name" : "Müller"
 			});
 
 			oContext.created().then(function(){

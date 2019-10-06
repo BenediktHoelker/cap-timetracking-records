@@ -12,7 +12,7 @@
 		busyIndicatorDelay="{objectView>/delay}">
 
 		<semantic:titleHeading>
-			<Title text="{surname}" />
+			<Title text="{name}" />
 		</semantic:titleHeading>
 
 		<semantic:headerContent>
