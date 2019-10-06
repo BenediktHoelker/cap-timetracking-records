@@ -3,13 +3,17 @@ sap.ui.define(
   function(BaseController, JSONModel, MessageToast) {
     "use strict";
 
-    const INITIAL_DATA = { newEntity: {} };
+    const INITIAL_DATA = {
+      newEntity: {
+        name: ""
+      }
+    };
 
     return BaseController.extend(
       "iot.timetracking-worklist.controller.CreateEntity",
       {
         onInit: function() {
-          const oViewModel = new JSONModel(Object.assign({}, INITIAL_DATA));
+          const oViewModel = new JSONModel(this._deepClone(INITIAL_DATA));
 
           this.getView().setModel(oViewModel, "viewModel");
 
@@ -19,7 +23,7 @@ sap.ui.define(
         },
 
         _onRouteMatched: function() {
-          this.getModel("viewModel").setData(Object.assign({}, INITIAL_DATA));
+          this.getModel("viewModel").setData(this._deepClone(INITIAL_DATA));
         },
 
         onPressSave: function() {

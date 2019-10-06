@@ -1,6 +1,11 @@
 sap.ui.define(
-  ["sap/ui/core/mvc/Controller", "sap/ui/core/UIComponent", "sap/m/library"],
-  function(Controller, UIComponent, mobileLibrary) {
+  [
+    "sap/ui/core/mvc/Controller",
+    "sap/m/library",
+    "sap/ui/model/Sorter",
+    "sap/ui/core/UIComponent"
+  ],
+  function(Controller, mobileLibrary, Sorter, UIComponent) {
     "use strict";
 
     // shortcut for sap.m.URLHelper
@@ -10,16 +15,22 @@ sap.ui.define(
       "iot.timetracking-worklist.controller.BaseController",
       {
         getListBinding: function() {
-          const oListBinding =
-            this.getOwnerComponent()._oListBinding ||
-            this.getModel().bindList('/Employees');
+          const oListBinding = this.getOwnerComponent()._oListBinding;
+
+          if (!oListBinding) {
+            return this.getModel().bindList("/Employees");
+          }
 
           return oListBinding;
         },
 
         setListBinding: function(oListBinding) {
           this.getOwnerComponent()._oListBinding = oListBinding;
-        },
+				},
+				
+				_deepClone: function(object){
+					return JSON.parse(JSON.stringify(object));
+				},
 
         /**
          * Convenience method for accessing the router.
@@ -37,7 +48,10 @@ sap.ui.define(
          * @returns {sap.ui.model.Model} the model instance
          */
         getModel: function(sName) {
-          return this.getView().getModel(sName);
+          return (
+            this.getView().getModel(sName) ||
+            this.getOwnerComponent().getModel(sName)
+          );
         },
 
         /**

@@ -43,8 +43,11 @@ sap.ui.define(
             ),
             tableNoDataText: this.getResourceBundle().getText("tableNoDataText")
           });
-          this.setModel(oViewModel, "worklistView");
 
+          this.setModel(oViewModel, "worklistView");
+        },
+
+        onAfterRendering: function() {
           this.setListBinding(this.byId("table").getBinding("items"));
         },
 
@@ -52,15 +55,12 @@ sap.ui.define(
         /* event handlers                                              */
         /* =========================================================== */
 
-        /**
-         * Triggered by the table's 'updateFinished' event: after new table
-         * data is available, this handler method updates the table counter.
-         * This should only happen if the update was successful, which is
-         * why this handler is attached to 'updateFinished' and not to the
-         * table's list binding's 'dataReceived' method.
-         * @param {sap.ui.base.Event} oEvent the update finished event
-         * @public
-         */
+        onPressDelete: function(oEvent) {
+          const oTable = this.byId("table");
+          const aSelectedContexts = oTable.getSelectedContexts();
+          aSelectedContexts.forEach(oContext => oContext.delete());
+        },
+
         onUpdateFinished: function(oEvent) {
           // update the worklist's object counter after the table update
           var sTitle,

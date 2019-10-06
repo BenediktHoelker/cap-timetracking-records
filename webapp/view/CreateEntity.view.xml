@@ -6,7 +6,7 @@
     <form:SimpleForm>
       <!-- <Label labelFor="nameInput" text="{/##Employees/name@com.sap.vocabularies.Common.v1.Label}"/> -->
       <Label labelFor="nameInput" text="Name"/>
-      <Input id="labelInput" value="{viewModel>/name}"/>
+      <Input id="labelInput" value="{viewModel>/newEntity/name}"/>
     </form:SimpleForm>
     <footer>
       <Toolbar>

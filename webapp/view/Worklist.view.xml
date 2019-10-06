@@ -16,15 +16,15 @@
 						path: 'name',
 						descending: false
 					}
-				}" noDataText="{worklistView>/tableNoDataText}" growing="true" growingScrollToLoad="true" updateFinished=".onUpdateFinished">
+				}" mode="MultiSelect" noDataText="{worklistView>/tableNoDataText}" growing="true" growingScrollToLoad="true" updateFinished=".onUpdateFinished">
 
 				<headerToolbar>
 					<Toolbar>
 						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}"/>
 						<ToolbarSpacer />
-						<SearchField id="searchField" tooltip="{i18n>worklistSearchTooltip}" search=".onSearch" width="auto">
-						</SearchField>
+						<SearchField id="searchField" tooltip="{i18n>worklistSearchTooltip}" search=".onSearch"/>
 						<Button icon="sap-icon://add" press="onPressAdd"/>
+						<Button icon="sap-icon://delete" press="onPressDelete"/>
 					</Toolbar>
 				</headerToolbar>
 
