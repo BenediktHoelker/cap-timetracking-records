@@ -30,10 +30,10 @@
 
 				<columns>
 					<Column id="nameColumn">
-						<Text text="{i18n>tableNameColumnTitle}" id="nameColumnTitle"/>
+						<Text text="Name" id="nameColumnTitle"/>
 					</Column>
 					<Column>
-						<Text text="Fakturastunden"/>
+						<Text text="Fakt.-stunden"/>
 					</Column>
 					<Column>
 						<Text text="Bonus"/>

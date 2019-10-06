@@ -101,6 +101,13 @@
 					]
 				},
 				{
+					"pattern": "create",
+					"name": "create",
+					"target": [
+						"create"
+					]
+				},
+				{
 					"pattern": "Employees{objectId}",
 					"name": "object",
 					"target": [
@@ -118,6 +125,12 @@
 				"object": {
 					"viewName": "Object",
 					"viewId": "object",
+					"viewLevel": 2,
+					"title": "{i18n>objectViewTitle}"
+				},
+				"create": {
+					"viewName": "CreateEntity",
+					"viewId": "create",
 					"viewLevel": 2,
 					"title": "{i18n>objectViewTitle}"
 				},

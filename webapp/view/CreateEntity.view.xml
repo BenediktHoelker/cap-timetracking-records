@@ -1,0 +1,18 @@
+<mvc:View controllerName="iot.timetracking-worklist.controller.CreateEntity" 
+  xmlns="sap.m" 
+  xmlns:form="sap.ui.layout.form" 
+  xmlns:mvc="sap.ui.core.mvc">
+  <Page showHeader="false" floatingFooter="true">
+    <form:SimpleForm>
+      <!-- <Label labelFor="nameInput" text="{/##Employees/name@com.sap.vocabularies.Common.v1.Label}"/> -->
+      <Label labelFor="nameInput" text="Name"/>
+      <Input id="labelInput" value="{viewModel>/name}"/>
+    </form:SimpleForm>
+    <footer>
+      <Toolbar>
+        <ToolbarSpacer/>
+        <Button text="Speichern" press="onPressSave"/>
+      </Toolbar>
+    </footer>
+  </Page>
+</mvc:View>
