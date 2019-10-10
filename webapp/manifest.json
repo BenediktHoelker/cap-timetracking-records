@@ -134,6 +134,12 @@
 					"viewLevel": 2,
 					"title": "{i18n>objectViewTitle}"
 				},
+				"createRecord": {
+					"viewName": "CreateRecord",
+					"viewId": "createRecord",
+					"viewLevel": 2,
+					"title": "{i18n>objectViewTitle}"
+				},
 				"objectNotFound": {
 					"viewName": "ObjectNotFound",
 					"viewId": "objectNotFound"

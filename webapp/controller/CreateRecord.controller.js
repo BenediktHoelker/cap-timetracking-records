@@ -4,13 +4,15 @@ sap.ui.define(
     "use strict";
 
     const INITIAL_DATA = {
-      newEntity: {
-        name: ""
+      newRecord: {
+        title: "",
+        description: "",
+        duration: 0
       }
     };
 
     return BaseController.extend(
-      "iot.timetracking-worklist.controller.CreateEntity",
+      "iot.timetracking-worklist.controller.CreateRecord",
       {
         onInit: function() {
           const oViewModel = new JSONModel(this._deepClone(INITIAL_DATA));
@@ -18,8 +20,9 @@ sap.ui.define(
           this.getView().setModel(oViewModel, "viewModel");
 
           this.getRouter()
-            .getRoute("create")
-            .attachPatternMatched(this._onRouteMatched, this);
+            .getTargets()
+            .getTarget("createRecord")
+            .attachDisplay(this._onRouteMatched, this);
         },
 
         _onRouteMatched: function() {
@@ -27,19 +30,18 @@ sap.ui.define(
         },
 
         onPressSave: function() {
-          const oNewEntity = this.getModel("viewModel").getProperty(
-            "/newEntity"
+          const oNewRecord = this.getModel("viewModel").getProperty(
+            "/newRecord"
           );
-          const oContext = this.getListBinding("Employees").create(oNewEntity);
+          const oContext = this.getListBinding("Records").create(oNewRecord);
 
-          oContext.created().then(() => this.getRouter().navTo("worklist"));
+          oContext.created().then(() => history.go(-1));
         },
 
-        onPressCancel: function(){
+        onPressCancel: function() {
           history.go(-1);
         }
       }
-      
     );
   }
 );

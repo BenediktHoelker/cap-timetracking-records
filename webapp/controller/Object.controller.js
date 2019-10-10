@@ -1,119 +1,155 @@
-sap.ui.define([
-	"./BaseController",
-	"sap/ui/model/json/JSONModel",
-	"sap/ui/core/routing/History",
-	"../model/formatter"
-], function (BaseController, JSONModel, History, formatter) {
-	"use strict";
+sap.ui.define(
+  [
+    "./BaseController",
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/core/routing/History",
+    "../model/formatter"
+  ],
+  function(BaseController, JSONModel, History, formatter) {
+    "use strict";
 
-	return BaseController.extend("iot.timetracking-worklist.controller.Object", {
+    return BaseController.extend(
+      "iot.timetracking-worklist.controller.Object",
+      {
+        formatter: formatter,
 
-		formatter: formatter,
+        /* =========================================================== */
+        /* lifecycle methods                                           */
+        /* =========================================================== */
 
-		/* =========================================================== */
-		/* lifecycle methods                                           */
-		/* =========================================================== */
+        /**
+         * Called when the worklist controller is instantiated.
+         * @public
+         */
+        onInit: function() {
+          // Model used to manipulate control states. The chosen values make sure,
+          // detail page shows busy indication immediately so there is no break in
+          // between the busy indication for loading the view's meta data
+          var oViewModel = new JSONModel({
+            busy: true,
+            delay: 0
+          });
+          this.getRouter()
+            .getRoute("object")
+            .attachPatternMatched(this._onObjectMatched, this);
+          this.setModel(oViewModel, "objectView");
+        },
+        /* =========================================================== */
+        /* event handlers                                              */
+        /* =========================================================== */
 
-		/**
-		 * Called when the worklist controller is instantiated.
-		 * @public
-		 */
-		onInit : function () {
-			// Model used to manipulate control states. The chosen values make sure,
-			// detail page shows busy indication immediately so there is no break in
-			// between the busy indication for loading the view's meta data
-			var oViewModel = new JSONModel({
-					busy : true,
-					delay : 0
-				});
-			this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
-			this.setModel(oViewModel, "objectView");
-		},
-		/* =========================================================== */
-		/* event handlers                                              */
-		/* =========================================================== */
+        onPressDeleteRecord: function(oEvent) {
+          const oTable = this.byId("recordsTable");
+          const aSelectedContexts = oTable.getSelectedContexts();
+          aSelectedContexts.forEach(oContext => oContext.delete());
+        },
 
+        onPressAddRecord: function() {
+          this.getRouter().getTargets().display("createRecord");
+        },
 
-		/**
-		 * Event handler  for navigating back.
-		 * It there is a history entry we go one step back in the browser history
-		 * If not, it will replace the current entry of the browser history with the worklist route.
-		 * @public
-		 */
-		onNavBack : function() {
-			var sPreviousHash = History.getInstance().getPreviousHash();
-			if (sPreviousHash !== undefined) {
-				// eslint-disable-next-line sap-no-history-manipulation
-				history.go(-1);
-			} else {
-				this.getRouter().navTo("worklist", {}, true);
-			}
-		},
+        /**
+         * Event handler  for navigating back.
+         * It there is a history entry we go one step back in the browser history
+         * If not, it will replace the current entry of the browser history with the worklist route.
+         * @public
+         */
+        onNavBack: function() {
+          var sPreviousHash = History.getInstance().getPreviousHash();
+          if (sPreviousHash !== undefined) {
+            // eslint-disable-next-line sap-no-history-manipulation
+            history.go(-1);
+          } else {
+            this.getRouter().navTo("worklist", {}, true);
+          }
+        },
 
-		/* =========================================================== */
-		/* internal methods                                            */
-		/* =========================================================== */
+        /* =========================================================== */
+        /* internal methods                                            */
+        /* =========================================================== */
 
-		/**
-		 * Binds the view to the object path.
-		 * @function
-		 * @param {sap.ui.base.Event} oEvent pattern match event in route 'object'
-		 * @private
-		 */
-		_onObjectMatched : function (oEvent) {
-			var sObjectId =  oEvent.getParameter("arguments").objectId;
-			this._bindView("/Employees" + sObjectId);
-		},
+        /**
+         * Binds the view to the object path.
+         * @function
+         * @param {sap.ui.base.Event} oEvent pattern match event in route 'object'
+         * @private
+         */
+        _onObjectMatched: function(oEvent) {
+          var sObjectId = oEvent.getParameter("arguments").objectId;
 
-		/**
-		 * Binds the view to the object path.
-		 * @function
-		 * @param {string} sObjectPath path to the object to be bound
-		 * @private
-		 */
-		_bindView : function (sObjectPath) {
-			var oViewModel = this.getModel("objectView");
+          this._bindView("/Employees" + sObjectId);
+        },
 
-			this.getView().bindElement({
-				path: sObjectPath,
-				events: {
-					change: this._onBindingChange.bind(this),
-					dataRequested: function () {
-						oViewModel.setProperty("/busy", true);
-					},
-					dataReceived: function () {
-						oViewModel.setProperty("/busy", false);
-					}
-				}
-			});
-		},
+        /**
+         * Binds the view to the object path.
+         * @function
+         * @param {string} sObjectPath path to the object to be bound
+         * @private
+         */
+        _bindView: function(sObjectPath) {
+          var oViewModel = this.getModel("objectView");
 
-		_onBindingChange : function () {
-			var oView = this.getView(),
-				oViewModel = this.getModel("objectView"),
-				oElementBinding = oView.getElementBinding();
+          this.setListBinding(
+            "Records",
+            this.byId("recordsTable").getBinding("items")
+          );
 
-			// No data for the binding
-			if (!oElementBinding.getBoundContext()) {
-				this.getRouter().getTargets().display("objectNotFound");
-				return;
-			}
+          this.getView().bindElement({
+            path: sObjectPath,
+            events: {
+              change: this._onBindingChange.bind(this),
+              dataRequested: function() {
+                oViewModel.setProperty("/busy", true);
+              },
+              dataReceived: function() {
+                oViewModel.setProperty("/busy", false);
+              }
+            }
+          });
+        },
 
-			var oResourceBundle = this.getResourceBundle();
+        _onBindingChange: function() {
+          var oView = this.getView(),
+            oViewModel = this.getModel("objectView"),
+            oElementBinding = oView.getElementBinding();
 
-			oView.getBindingContext().requestObject().then((function (oObject) {
-				var sObjectId = oObject.ID,
-					sObjectName = oObject.surname;
+          // No data for the binding
+          if (!oElementBinding.getBoundContext()) {
+            this.getRouter()
+              .getTargets()
+              .display("objectNotFound");
+            return;
+          }
 
+          var oResourceBundle = this.getResourceBundle();
 
-				oViewModel.setProperty("/busy", false);
-				oViewModel.setProperty("/shareSendEmailSubject",
-					oResourceBundle.getText("shareSendEmailObjectSubject", [sObjectId]));
-				oViewModel.setProperty("/shareSendEmailMessage",
-					oResourceBundle.getText("shareSendEmailObjectMessage", [sObjectName, sObjectId, location.href]));
-			}).bind(this));
-		}
+          oView
+            .getBindingContext()
+            .requestObject()
+            .then(
+              function(oObject) {
+                var sObjectId = oObject.ID,
+                  sObjectName = oObject.surname;
 
-	});
-
-});
+                oViewModel.setProperty("/busy", false);
+                oViewModel.setProperty(
+                  "/shareSendEmailSubject",
+                  oResourceBundle.getText("shareSendEmailObjectSubject", [
+                    sObjectId
+                  ])
+                );
+                oViewModel.setProperty(
+                  "/shareSendEmailMessage",
+                  oResourceBundle.getText("shareSendEmailObjectMessage", [
+                    sObjectName,
+                    sObjectId,
+                    location.href
+                  ])
+                );
+              }.bind(this)
+            );
+        }
+      }
+    );
+  }
+);

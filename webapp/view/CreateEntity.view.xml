@@ -3,7 +3,7 @@
   xmlns:form="sap.ui.layout.form" 
   xmlns:mvc="sap.ui.core.mvc">
   <Page showHeader="false" floatingFooter="true">
-    <form:SimpleForm>
+    <form:SimpleForm  editable="true">
       <!-- <Label labelFor="nameInput" text="{/##Employees/name@com.sap.vocabularies.Common.v1.Label}"/> -->
       <Label labelFor="nameInput" text="Name"/>
       <Input id="labelInput" value="{viewModel>/newEntity/name}"/>

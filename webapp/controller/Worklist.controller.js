@@ -48,7 +48,10 @@ sap.ui.define(
         },
 
         onAfterRendering: function() {
-          this.setListBinding(this.byId("table").getBinding("items"));
+          this.setListBinding(
+            "Employees",
+            this.byId("table").getBinding("items")
+          );
         },
 
         /* =========================================================== */

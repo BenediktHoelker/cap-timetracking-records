@@ -1,0 +1,28 @@
+<mvc:View controllerName="iot.timetracking-worklist.controller.CreateRecord" 
+  xmlns="sap.m" 
+  xmlns:form="sap.ui.layout.form" 
+  xmlns:core="sap.ui.core" 
+  xmlns:mvc="sap.ui.core.mvc">
+  <Page showHeader="false" floatingFooter="true">
+    <form:SimpleForm editable="true">
+      <!-- <Label labelFor="nameInput" text="{/##Employees/name@com.sap.vocabularies.Common.v1.Label}"/> -->
+      <Label labelFor="titleInput" text="Titel"/>
+      <Input id="titleInput" value="{viewModel>/newRecord/title}"/>
+      <Label labelFor="descInput" text="Description"/>
+      <Input id="descInput" value="{viewModel>/newRecord/description}"/>
+      <Label labelFor="projectInput" text="Project"/>
+      <Select id="projectSelect" value="{viewModel>/newRecord/project}" items="{/Projects}">
+        <core:Item text="{viewModel>Title}" key="{viewModel>ID}"/>
+      </Select>
+      <Label labelFor="durationInput" text="Duration"/>
+      <Input id="durationInput" value="{viewModel>/newRecord/duration}" type="Number"/>
+    </form:SimpleForm>
+    <footer>
+      <Toolbar>
+        <ToolbarSpacer/>
+        <Button text="Speichern" press="onPressSave" type="Emphasized"/>
+        <Button text="Abbrechen" press="onPressCancel"/>
+      </Toolbar>
+    </footer>
+  </Page>
+</mvc:View>

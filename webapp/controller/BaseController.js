@@ -14,18 +14,18 @@ sap.ui.define(
     return Controller.extend(
       "iot.timetracking-worklist.controller.BaseController",
       {
-        getListBinding: function() {
-          const oListBinding = this.getOwnerComponent()._oListBinding;
+        getListBinding: function(sName, sEntity) {
+          const oListBinding = this.getOwnerComponent()._oListBindings[sName];
 
           if (!oListBinding) {
-            return this.getModel().bindList("/Employees");
+            return this.getModel().bindList(sEntity);
           }
 
           return oListBinding;
         },
 
-        setListBinding: function(oListBinding) {
-          this.getOwnerComponent()._oListBinding = oListBinding;
+        setListBinding: function(sName, oListBinding) {
+          this.getOwnerComponent()._oListBindings[sName] = oListBinding;
 				},
 				
 				_deepClone: function(object){
