@@ -35,7 +35,11 @@ sap.ui.define(
           );
           const oContext = this.getListBinding("Records").create(oNewRecord);
 
-          oContext.created().then(() => history.go(-1));
+          oContext.created()
+            .then(oContext => {
+              this.getListBinding("Employees", "/Employees").refresh();
+              console.log(oContext);
+            }).then(() => history.go(-1));
         },
 
         onPressCancel: function() {

@@ -3,13 +3,9 @@
 	xmlns:mvc="sap.ui.core.mvc" 
 	xmlns:semantic="sap.f.semantic">
 
-	<semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false">
+	<Page id="page">
 
-		<semantic:titleHeading>
-			<Title text="{i18n>worklistTitle}" />
-		</semantic:titleHeading>
-
-		<semantic:content>
+		<content>
 			<Table id="table" width="auto" items="{
 					path: '/Employees',
 					sorter: {
@@ -33,6 +29,9 @@
 						<Text text="Name" id="nameColumnTitle"/>
 					</Column>
 					<Column>
+						<Text text="Anzahl Einträge"/>
+					</Column>
+					<Column>
 						<Text text="Fakt.-stunden"/>
 					</Column>
 					<Column>
@@ -44,24 +43,26 @@
 					<ColumnListItem type="Navigation" press=".onPress">
 						<cells>
 							<ObjectIdentifier title="{name}"/>
-							<ObjectNumber number="{billableDuration}"/>
-							<ObjectNumber number="{path: 'bonus', 
+							<ObjectNumber number="{recordsCount}"/>
+							<ObjectNumber number="{
+								path: 'billableDuration', 
 								type: 'sap.ui.model.type.Float',
 								formatOptions: {
 										maxFractionDigits: 2,
-										minFractionDigits: 2
-								}}"/>
+										roundingMode: 'away_from_zero'
+								}}" />
+							<ObjectNumber number="{
+								path: 'bonus', 
+								type: 'sap.ui.model.type.Float',
+								formatOptions: {
+										maxFractionDigits: 2,
+										roundingMode: 'away_from_zero'
+								}}" />
 						</cells>
 					</ColumnListItem>
 				</items>
 			</Table>
-		</semantic:content>
-
-		<semantic:sendEmailAction>
-			<semantic:SendEmailAction id="shareEmail" press=".onShareEmailPress"/>
-		</semantic:sendEmailAction>
-
-
-	</semantic:SemanticPage>
+		</content>
+	</Page>Ì
 
 </mvc:View>

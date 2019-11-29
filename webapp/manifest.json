@@ -108,7 +108,7 @@
 					]
 				},
 				{
-					"pattern": "Employees{objectId}",
+					"pattern": "Employees/{objectId}",
 					"name": "object",
 					"target": [
 						"object"

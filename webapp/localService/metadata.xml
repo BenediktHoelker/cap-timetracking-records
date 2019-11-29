@@ -9,34 +9,31 @@
 		<edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
 	</edmx:Reference>
 	<edmx:DataServices>
-		<Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="Timetracking">
+		<Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="TimetrackingService">
 			<EntityContainer Name="EntityContainer">
-				<EntitySet Name="Employees" EntityType="Timetracking.Employees">
+				<EntitySet Name="Employees" EntityType="TimetrackingService.Employees">
 					<NavigationPropertyBinding Path="records" Target="Records"/>
 				</EntitySet>
-				<EntitySet Name="Packages" EntityType="Timetracking.Packages">
+				<EntitySet Name="Packages" EntityType="TimetrackingService.Packages">
 					<NavigationPropertyBinding Path="project" Target="Projects"/>
 				</EntitySet>
-				<EntitySet Name="Projects" EntityType="Timetracking.Projects">
+				<EntitySet Name="Projects" EntityType="TimetrackingService.Projects">
 					<NavigationPropertyBinding Path="packages" Target="Packages"/>
 				</EntitySet>
-				<EntitySet Name="Records" EntityType="Timetracking.Records">
-					<NavigationPropertyBinding Path="package" Target="Packages"/>
+				<EntitySet Name="Records" EntityType="TimetrackingService.Records">
 					<NavigationPropertyBinding Path="employee" Target="Employees"/>
+					<NavigationPropertyBinding Path="project" Target="Projects"/>
 				</EntitySet>
 			</EntityContainer>
 			<EntityType Name="Employees">
 				<Key>
 					<PropertyRef Name="ID"/>
 				</Key>
-				<Property Name="modifiedAt" Type="Edm.DateTimeOffset"/>
-				<Property Name="createdAt" Type="Edm.DateTimeOffset"/>
-				<Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
-				<Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
-				<Property Name="ID" Type="Edm.Int32" Nullable="false"/>
-				<Property Name="firstname" Type="Edm.String"/>
-				<Property Name="surname" Type="Edm.String"/>
-				<NavigationProperty Name="records" Type="Collection(Timetracking.Records)" Partner="employee"/>
+				<Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="name" Type="Edm.String"/>
+				<Property Name="recordsCount" Type="Edm.Int32"/>
+				<Property Name="billableDuration" Type="Edm.Decimal" Scale="2" Precision="13"/>
+				<NavigationProperty Name="records" Type="Collection(TimetrackingService.Records)" Partner="employee"/>
 			</EntityType>
 			<EntityType Name="Packages">
 				<Key>
@@ -49,7 +46,7 @@
 				<Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
 				<Property Name="title" Type="Edm.String"/>
 				<Property Name="description" Type="Edm.String"/>
-				<NavigationProperty Name="project" Type="Timetracking.Projects" Partner="packages">
+				<NavigationProperty Name="project" Type="TimetrackingService.Projects" Partner="packages">
 					<ReferentialConstraint Property="project_ID" ReferencedProperty="ID"/>
 				</NavigationProperty>
 				<Property Name="project_ID" Type="Edm.Guid"/>
@@ -65,7 +62,8 @@
 				<Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
 				<Property Name="title" Type="Edm.String"/>
 				<Property Name="description" Type="Edm.String"/>
-				<NavigationProperty Name="packages" Type="Collection(Timetracking.Packages)" Partner="project"/>
+				<Property Name="billingFactor" Type="Edm.Decimal" Scale="2" Precision="5"/>
+				<NavigationProperty Name="packages" Type="Collection(TimetrackingService.Packages)" Partner="project"/>
 			</EntityType>
 			<EntityType Name="Records">
 				<Key>
@@ -78,106 +76,89 @@
 				<Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
 				<Property Name="title" Type="Edm.String"/>
 				<Property Name="description" Type="Edm.String"/>
-				<NavigationProperty Name="package" Type="Timetracking.Packages">
-					<ReferentialConstraint Property="package_ID" ReferencedProperty="ID"/>
-				</NavigationProperty>
-				<NavigationProperty Name="employee" Type="Timetracking.Employees" Partner="records">
+				<Property Name="duration" Type="Edm.Decimal" Scale="2" Precision="4"/>
+				<NavigationProperty Name="employee" Type="TimetrackingService.Employees" Partner="records">
 					<ReferentialConstraint Property="employee_ID" ReferencedProperty="ID"/>
 				</NavigationProperty>
-				<Property Name="package_ID" Type="Edm.Guid"/>
-				<Property Name="employee_ID" Type="Edm.Int32"/>
+				<NavigationProperty Name="project" Type="TimetrackingService.Projects">
+					<ReferentialConstraint Property="project_ID" ReferencedProperty="ID"/>
+				</NavigationProperty>
+				<Property Name="employee_ID" Type="Edm.Guid"/>
+				<Property Name="project_ID" Type="Edm.Guid"/>
 			</EntityType>
-			<Annotations Target="Timetracking.Employees/modifiedAt">
+			<Annotations Target="TimetrackingService.Employees/recordsCount">
+				<Annotation Term="Core.Computed" Bool="true"/>
+			</Annotations>
+			<Annotations Target="TimetrackingService.Employees/billableDuration">
+				<Annotation Term="Core.Computed" Bool="true"/>
+			</Annotations>
+			<Annotations Target="TimetrackingService.Packages/modifiedAt">
 				<Annotation Term="Common.Label" String="Geändert am"/>
 				<Annotation Term="Core.Computed" Bool="true"/>
 				<Annotation Term="Core.Immutable" Bool="true"/>
 				<Annotation Term="UI.HiddenFilter" Bool="true"/>
 			</Annotations>
-			<Annotations Target="Timetracking.Employees/createdAt">
+			<Annotations Target="TimetrackingService.Packages/createdAt">
 				<Annotation Term="Common.Label" String="Angelegt am"/>
 				<Annotation Term="Core.Computed" Bool="true"/>
 				<Annotation Term="Core.Immutable" Bool="true"/>
 				<Annotation Term="UI.HiddenFilter" Bool="true"/>
 			</Annotations>
-			<Annotations Target="Timetracking.Employees/createdBy">
+			<Annotations Target="TimetrackingService.Packages/createdBy">
 				<Annotation Term="Common.Label" String="Angelegt von"/>
 				<Annotation Term="Core.Computed" Bool="true"/>
 				<Annotation Term="Core.Immutable" Bool="true"/>
 				<Annotation Term="UI.HiddenFilter" Bool="true"/>
 			</Annotations>
-			<Annotations Target="Timetracking.Employees/modifiedBy">
+			<Annotations Target="TimetrackingService.Packages/modifiedBy">
 				<Annotation Term="Common.Label" String="Geändert von"/>
 				<Annotation Term="Core.Computed" Bool="true"/>
 				<Annotation Term="Core.Immutable" Bool="true"/>
 				<Annotation Term="UI.HiddenFilter" Bool="true"/>
 			</Annotations>
-			<Annotations Target="Timetracking.Packages/modifiedAt">
+			<Annotations Target="TimetrackingService.Projects/modifiedAt">
 				<Annotation Term="Common.Label" String="Geändert am"/>
 				<Annotation Term="Core.Computed" Bool="true"/>
 				<Annotation Term="Core.Immutable" Bool="true"/>
 				<Annotation Term="UI.HiddenFilter" Bool="true"/>
 			</Annotations>
-			<Annotations Target="Timetracking.Packages/createdAt">
+			<Annotations Target="TimetrackingService.Projects/createdAt">
 				<Annotation Term="Common.Label" String="Angelegt am"/>
 				<Annotation Term="Core.Computed" Bool="true"/>
 				<Annotation Term="Core.Immutable" Bool="true"/>
 				<Annotation Term="UI.HiddenFilter" Bool="true"/>
 			</Annotations>
-			<Annotations Target="Timetracking.Packages/createdBy">
+			<Annotations Target="TimetrackingService.Projects/createdBy">
 				<Annotation Term="Common.Label" String="Angelegt von"/>
 				<Annotation Term="Core.Computed" Bool="true"/>
 				<Annotation Term="Core.Immutable" Bool="true"/>
 				<Annotation Term="UI.HiddenFilter" Bool="true"/>
 			</Annotations>
-			<Annotations Target="Timetracking.Packages/modifiedBy">
+			<Annotations Target="TimetrackingService.Projects/modifiedBy">
 				<Annotation Term="Common.Label" String="Geändert von"/>
 				<Annotation Term="Core.Computed" Bool="true"/>
 				<Annotation Term="Core.Immutable" Bool="true"/>
 				<Annotation Term="UI.HiddenFilter" Bool="true"/>
 			</Annotations>
-			<Annotations Target="Timetracking.Projects/modifiedAt">
+			<Annotations Target="TimetrackingService.Records/modifiedAt">
 				<Annotation Term="Common.Label" String="Geändert am"/>
 				<Annotation Term="Core.Computed" Bool="true"/>
 				<Annotation Term="Core.Immutable" Bool="true"/>
 				<Annotation Term="UI.HiddenFilter" Bool="true"/>
 			</Annotations>
-			<Annotations Target="Timetracking.Projects/createdAt">
+			<Annotations Target="TimetrackingService.Records/createdAt">
 				<Annotation Term="Common.Label" String="Angelegt am"/>
 				<Annotation Term="Core.Computed" Bool="true"/>
 				<Annotation Term="Core.Immutable" Bool="true"/>
 				<Annotation Term="UI.HiddenFilter" Bool="true"/>
 			</Annotations>
-			<Annotations Target="Timetracking.Projects/createdBy">
+			<Annotations Target="TimetrackingService.Records/createdBy">
 				<Annotation Term="Common.Label" String="Angelegt von"/>
 				<Annotation Term="Core.Computed" Bool="true"/>
 				<Annotation Term="Core.Immutable" Bool="true"/>
 				<Annotation Term="UI.HiddenFilter" Bool="true"/>
 			</Annotations>
-			<Annotations Target="Timetracking.Projects/modifiedBy">
-				<Annotation Term="Common.Label" String="Geändert von"/>
-				<Annotation Term="Core.Computed" Bool="true"/>
-				<Annotation Term="Core.Immutable" Bool="true"/>
-				<Annotation Term="UI.HiddenFilter" Bool="true"/>
-			</Annotations>
-			<Annotations Target="Timetracking.Records/modifiedAt">
-				<Annotation Term="Common.Label" String="Geändert am"/>
-				<Annotation Term="Core.Computed" Bool="true"/>
-				<Annotation Term="Core.Immutable" Bool="true"/>
-				<Annotation Term="UI.HiddenFilter" Bool="true"/>
-			</Annotations>
-			<Annotations Target="Timetracking.Records/createdAt">
-				<Annotation Term="Common.Label" String="Angelegt am"/>
-				<Annotation Term="Core.Computed" Bool="true"/>
-				<Annotation Term="Core.Immutable" Bool="true"/>
-				<Annotation Term="UI.HiddenFilter" Bool="true"/>
-			</Annotations>
-			<Annotations Target="Timetracking.Records/createdBy">
-				<Annotation Term="Common.Label" String="Angelegt von"/>
-				<Annotation Term="Core.Computed" Bool="true"/>
-				<Annotation Term="Core.Immutable" Bool="true"/>
-				<Annotation Term="UI.HiddenFilter" Bool="true"/>
-			</Annotations>
-			<Annotations Target="Timetracking.Records/modifiedBy">
+			<Annotations Target="TimetrackingService.Records/modifiedBy">
 				<Annotation Term="Common.Label" String="Geändert von"/>
 				<Annotation Term="Core.Computed" Bool="true"/>
 				<Annotation Term="Core.Immutable" Bool="true"/>

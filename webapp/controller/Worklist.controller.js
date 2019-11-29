@@ -34,13 +34,6 @@ sap.ui.define(
               "worklistTableTitle"
             ),
             shareOnJamTitle: this.getResourceBundle().getText("worklistTitle"),
-            shareSendEmailSubject: this.getResourceBundle().getText(
-              "shareSendEmailWorklistSubject"
-            ),
-            shareSendEmailMessage: this.getResourceBundle().getText(
-              "shareSendEmailWorklistMessage",
-              [location.href]
-            ),
             tableNoDataText: this.getResourceBundle().getText("tableNoDataText")
           });
 
