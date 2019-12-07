@@ -7,7 +7,7 @@ sap.ui.define(
       newRecord: {
         title: "",
         description: "",
-        duration: 0
+        time: 0
       }
     };
 
@@ -22,10 +22,14 @@ sap.ui.define(
           this.getRouter()
             .getTargets()
             .getTarget("createRecord")
-            .attachDisplay(this._onRouteMatched, this);
+            .attachDisplay(this._onDisplay, this);
         },
 
-        _onRouteMatched: function() {
+        _onDisplay: function(oEvent) {
+          this.getView().bindElement(
+            `/Employees(${oEvent.getParameter("data").employee})`
+          );
+
           this.getModel("viewModel").setData(this._deepClone(INITIAL_DATA));
         },
 
@@ -35,11 +39,13 @@ sap.ui.define(
           );
           const oContext = this.getListBinding("Records").create(oNewRecord);
 
-          oContext.created()
+          oContext
+            .created()
             .then(oContext => {
               this.getListBinding("Employees", "/Employees").refresh();
               console.log(oContext);
-            }).then(() => history.go(-1));
+            })
+            .then(() => history.go(-1));
         },
 
         onPressCancel: function() {

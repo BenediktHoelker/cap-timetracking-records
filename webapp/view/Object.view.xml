@@ -37,7 +37,7 @@
 						<cells>
 							<ObjectIdentifier title="{title}"/>
 							<Text text="{description}"/>
-							<ObjectNumber number="{duration}"/>
+							<ObjectNumber number="{time}"/>
 						</cells>
 					</ColumnListItem>
 				</items>

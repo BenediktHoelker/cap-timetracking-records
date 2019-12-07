@@ -45,7 +45,9 @@ sap.ui.define(
         },
 
         onPressAddRecord: function() {
-          this.getRouter().getTargets().display("createRecord");
+          const oEmployee = this.getView().getBindingContext().getObject();
+
+          this.getRouter().getTargets().display("createRecord", {employee: oEmployee.ID});
         },
 
         /**

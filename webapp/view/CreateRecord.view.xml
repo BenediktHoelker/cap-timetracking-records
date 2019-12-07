@@ -11,11 +11,11 @@
       <Label labelFor="descInput" text="Description"/>
       <Input id="descInput" value="{viewModel>/newRecord/description}"/>
       <Label labelFor="projectInput" text="Project"/>
-      <Select id="projectSelect" forceSelection="false" selectedKey="{viewModel>/newRecord/project_ID}" items="{/Projects}">
-        <core:Item text="{title}" key="{ID}"/>
+      <Select id="projectSelect" forceSelection="false" selectedKey="{viewModel>/newRecord/project_ID}" items="{projects}">
+        <core:Item text="{title}" key="{projectID}"/>
       </Select>
       <Label labelFor="durationInput" text="Duration"/>
-      <Input id="durationInput" value="{viewModel>/newRecord/duration}" type="Number"/>
+      <Input id="durationInput" value="{viewModel>/newRecord/time}" type="Number"/>
     </form:SimpleForm>
     <footer>
       <Toolbar>

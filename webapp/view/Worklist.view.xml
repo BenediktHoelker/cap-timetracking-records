@@ -45,7 +45,7 @@
 							<ObjectIdentifier title="{name}"/>
 							<ObjectNumber number="{recordsCount}"/>
 							<ObjectNumber number="{
-								path: 'billableDuration', 
+								path: 'billingTime', 
 								type: 'sap.ui.model.type.Float',
 								formatOptions: {
 										maxFractionDigits: 2,
