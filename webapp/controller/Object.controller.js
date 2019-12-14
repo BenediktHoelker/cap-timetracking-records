@@ -31,9 +31,13 @@ sap.ui.define(
         },
 
         onPressAddRecord: function() {
-          const oEmployee = this.getView().getBindingContext().getObject();
+          const oEmployee = this.getView()
+            .getBindingContext()
+            .getObject();
 
-          this.getRouter().getTargets().display("createRecord", {employee: oEmployee.ID});
+          this.getRouter()
+            .getTargets()
+            .display("createRecord", { employee: oEmployee.ID });
         },
 
         onNavBack: function() {
@@ -90,8 +94,7 @@ sap.ui.define(
           oView
             .getBindingContext()
             .requestObject()
-            .then(() => oViewModel.setProperty("/busy", false);
-            ));
+            .then(() => oViewModel.setProperty("/busy", false));
         }
       }
     );

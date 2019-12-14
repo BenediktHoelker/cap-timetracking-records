@@ -12,7 +12,7 @@
     "mbt": "^0.3.2"
   },
   "devDependencies": {
-    "@ui5/cli": "^1.9.0",
+    "@ui5/cli": "^1.12.1",
     "eslint": "^5.16.0",
     "karma": "^4.3.0",
     "karma-chrome-launcher": "^3.1.0",
