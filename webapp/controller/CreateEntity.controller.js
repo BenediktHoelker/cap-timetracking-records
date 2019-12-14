@@ -39,7 +39,6 @@ sap.ui.define(
           history.go(-1);
         }
       }
-      
     );
   }
 );

@@ -3,8 +3,7 @@
 	xmlns:mvc="sap.ui.core.mvc" 
 	xmlns:semantic="sap.f.semantic">
 
-	<Page id="page">
-
+	<Page id="page" title="Zeiterfassung">
 		<content>
 			<Table id="table" width="auto" items="{
 					path: '/Employees',

@@ -13,18 +13,7 @@ sap.ui.define(
       {
         formatter: formatter,
 
-        /* =========================================================== */
-        /* lifecycle methods                                           */
-        /* =========================================================== */
-
-        /**
-         * Called when the worklist controller is instantiated.
-         * @public
-         */
         onInit: function() {
-          // Model used to manipulate control states. The chosen values make sure,
-          // detail page shows busy indication immediately so there is no break in
-          // between the busy indication for loading the view's meta data
           var oViewModel = new JSONModel({
             busy: true,
             delay: 0
@@ -34,9 +23,6 @@ sap.ui.define(
             .attachPatternMatched(this._onObjectMatched, this);
           this.setModel(oViewModel, "objectView");
         },
-        /* =========================================================== */
-        /* event handlers                                              */
-        /* =========================================================== */
 
         onPressDeleteRecord: function(oEvent) {
           const oTable = this.byId("recordsTable");
@@ -50,12 +36,6 @@ sap.ui.define(
           this.getRouter().getTargets().display("createRecord", {employee: oEmployee.ID});
         },
 
-        /**
-         * Event handler  for navigating back.
-         * It there is a history entry we go one step back in the browser history
-         * If not, it will replace the current entry of the browser history with the worklist route.
-         * @public
-         */
         onNavBack: function() {
           var sPreviousHash = History.getInstance().getPreviousHash();
           if (sPreviousHash !== undefined) {
@@ -66,28 +46,12 @@ sap.ui.define(
           }
         },
 
-        /* =========================================================== */
-        /* internal methods                                            */
-        /* =========================================================== */
-
-        /**
-         * Binds the view to the object path.
-         * @function
-         * @param {sap.ui.base.Event} oEvent pattern match event in route 'object'
-         * @private
-         */
         _onObjectMatched: function(oEvent) {
           var sObjectId = oEvent.getParameter("arguments").objectId;
 
           this._bindView("/Employees" + sObjectId);
         },
 
-        /**
-         * Binds the view to the object path.
-         * @function
-         * @param {string} sObjectPath path to the object to be bound
-         * @private
-         */
         _bindView: function(sObjectPath) {
           var oViewModel = this.getModel("objectView");
 
@@ -123,33 +87,11 @@ sap.ui.define(
             return;
           }
 
-          var oResourceBundle = this.getResourceBundle();
-
           oView
             .getBindingContext()
             .requestObject()
-            .then(
-              function(oObject) {
-                var sObjectId = oObject.ID,
-                  sObjectName = oObject.surname;
-
-                oViewModel.setProperty("/busy", false);
-                oViewModel.setProperty(
-                  "/shareSendEmailSubject",
-                  oResourceBundle.getText("shareSendEmailObjectSubject", [
-                    sObjectId
-                  ])
-                );
-                oViewModel.setProperty(
-                  "/shareSendEmailMessage",
-                  oResourceBundle.getText("shareSendEmailObjectMessage", [
-                    sObjectName,
-                    sObjectId,
-                    location.href
-                  ])
-                );
-              }.bind(this)
-            );
+            .then(() => oViewModel.setProperty("/busy", false);
+            ));
         }
       }
     );
