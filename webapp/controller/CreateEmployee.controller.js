@@ -10,7 +10,7 @@ sap.ui.define(
     };
 
     return BaseController.extend(
-      "iot.timetracking-worklist.controller.CreateProject",
+      "iot.timetracking-worklist.controller.CreateEmployee",
       {
         onInit: function() {
           const oViewModel = new JSONModel(this._deepClone(INITIAL_DATA));
@@ -27,10 +27,22 @@ sap.ui.define(
         },
 
         onPressSave: function() {
-          const oNewEntity = this.getModel("viewModel").getProperty(
+          const oNewEmployee = this.getModel("viewModel").getProperty(
             "/newEntity"
           );
-          const oContext = this.getListBinding("Employees").create(oNewEntity);
+
+          oNewEmployee.projects = this.byId("projectsSelect")
+            .getSelectedItems()
+            .map(item => item.getBindingContext().getObject())
+            .map(project => ({
+              projectID: project.ID,
+              title: project.title,
+              description: project.description
+            }));
+
+          const oContext = this.getListBinding("Employees").create(
+            oNewEmployee
+          );
 
           oContext.created().then(() => this.getRouter().navTo("worklist"));
         },

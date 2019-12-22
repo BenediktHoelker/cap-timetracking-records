@@ -129,7 +129,7 @@
 					"title": "{i18n>objectViewTitle}"
 				},
 				"create": {
-					"viewName": "CreateProject",
+					"viewName": "CreateEmployee",
 					"viewId": "create",
 					"viewLevel": 2,
 					"title": "{i18n>objectViewTitle}"
