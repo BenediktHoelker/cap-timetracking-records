@@ -10,7 +10,7 @@ sap.ui.define(
     };
 
     return BaseController.extend(
-      "iot.timetracking-worklist.controller.CreateEntity",
+      "iot.timetracking-worklist.controller.CreateProject",
       {
         onInit: function() {
           const oViewModel = new JSONModel(this._deepClone(INITIAL_DATA));
@@ -35,7 +35,7 @@ sap.ui.define(
           oContext.created().then(() => this.getRouter().navTo("worklist"));
         },
 
-        onPressCancel: function(){
+        onPressCancel: function() {
           history.go(-1);
         }
       }

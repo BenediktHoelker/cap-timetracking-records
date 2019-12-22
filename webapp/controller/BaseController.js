@@ -1,15 +1,10 @@
 sap.ui.define(
   [
     "sap/ui/core/mvc/Controller",
-    "sap/m/library",
-    "sap/ui/model/Sorter",
     "sap/ui/core/UIComponent"
   ],
-  function(Controller, mobileLibrary, Sorter, UIComponent) {
+  function(Controller, UIComponent) {
     "use strict";
-
-    // shortcut for sap.m.URLHelper
-    var URLHelper = mobileLibrary.URLHelper;
 
     return Controller.extend(
       "iot.timetracking-worklist.controller.BaseController",
@@ -26,27 +21,16 @@ sap.ui.define(
 
         setListBinding: function(sName, oListBinding) {
           this.getOwnerComponent()._oListBindings[sName] = oListBinding;
-				},
-				
-				_deepClone: function(object){
-					return JSON.parse(JSON.stringify(object));
-				},
+        },
 
-        /**
-         * Convenience method for accessing the router.
-         * @public
-         * @returns {sap.ui.core.routing.Router} the router for this component
-         */
+        _deepClone: function(object) {
+          return JSON.parse(JSON.stringify(object));
+        },
+
         getRouter: function() {
           return UIComponent.getRouterFor(this);
         },
 
-        /**
-         * Convenience method for getting the view model by name.
-         * @public
-         * @param {string} [sName] the model name
-         * @returns {sap.ui.model.Model} the model instance
-         */
         getModel: function(sName) {
           return (
             this.getView().getModel(sName) ||
@@ -54,39 +38,14 @@ sap.ui.define(
           );
         },
 
-        /**
-         * Convenience method for setting the view model.
-         * @public
-         * @param {sap.ui.model.Model} oModel the model instance
-         * @param {string} sName the model name
-         * @returns {sap.ui.mvc.View} the view instance
-         */
         setModel: function(oModel, sName) {
           return this.getView().setModel(oModel, sName);
         },
 
-        /**
-         * Getter for the resource bundle.
-         * @public
-         * @returns {sap.ui.model.resource.ResourceModel} the resourceModel of the component
-         */
         getResourceBundle: function() {
           return this.getOwnerComponent()
             .getModel("i18n")
             .getResourceBundle();
-        },
-        /**
-         * Event handler when the share by E-Mail button has been clicked
-         * @public
-         */
-        onShareEmailPress: function() {
-          var oViewModel =
-            this.getModel("objectView") || this.getModel("worklistView");
-          URLHelper.triggerEmail(
-            null,
-            oViewModel.getProperty("/shareSendEmailSubject"),
-            oViewModel.getProperty("/shareSendEmailMessage")
-          );
         }
       }
     );

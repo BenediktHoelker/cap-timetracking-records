@@ -129,7 +129,7 @@
 					"title": "{i18n>objectViewTitle}"
 				},
 				"create": {
-					"viewName": "CreateEntity",
+					"viewName": "CreateProject",
 					"viewId": "create",
 					"viewLevel": 2,
 					"title": "{i18n>objectViewTitle}"

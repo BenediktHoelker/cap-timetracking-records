@@ -1,4 +1,4 @@
-<mvc:View controllerName="iot.timetracking-worklist.controller.CreateEntity" 
+<mvc:View controllerName="iot.timetracking-worklist.controller.CreateProject" 
   xmlns="sap.m" 
   xmlns:form="sap.ui.layout.form" 
   xmlns:core="sap.ui.core" 
