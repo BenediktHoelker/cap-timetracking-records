@@ -1,0 +1,4 @@
+<core:FragmentDefinition xmlns="sap.m" 
+  xmlns:core="sap.ui.core">
+  <StandardListItem press=".onPress" selected="{isMember}" title="{title}"/>
+</core:FragmentDefinition>

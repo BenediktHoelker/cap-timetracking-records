@@ -1,9 +1,7 @@
 <mvc:View controllerName="iot.timetracking-worklist.controller.Object" 
 	xmlns="sap.m" 
 	xmlns:mvc="sap.ui.core.mvc">
-
-	<Page title="{name}" id="page" busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
-
+	<Page title="{name}" id="page" busyIndicatorDelay="{objectView>/delay}">
 		<content>
 			<Table id="recordsTable" items="{
 					path: 'records',
@@ -11,7 +9,6 @@
 						path: 'title'
 					}
 				}" mode="MultiSelect" noDataText="{worklistView>/tableNoDataText}" growing="true" growingScrollToLoad="true">
-
 				<headerToolbar>
 					<Toolbar>
 						<ToolbarSpacer />
@@ -19,7 +16,6 @@
 						<Button icon="sap-icon://delete" press="onPressDeleteRecord"/>
 					</Toolbar>
 				</headerToolbar>
-
 				<columns>
 					<Column>
 						<Text text="Title"/>
@@ -31,7 +27,6 @@
 						<Text text="Duration"/>
 					</Column>
 				</columns>
-
 				<items>
 					<ColumnListItem type="Navigation" press=".onPress">
 						<cells>
@@ -43,8 +38,11 @@
 				</items>
 			</Table>
 		</content>
-
-
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button text="Bearbeiten" press="onPressEditEmployee"/>
+			</Toolbar>
+		</footer>
 	</Page>
-
 </mvc:View>

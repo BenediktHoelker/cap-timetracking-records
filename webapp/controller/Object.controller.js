@@ -40,6 +40,17 @@ sap.ui.define(
             .display("createRecord", { employee: oEmployee.ID });
         },
 
+        onPressEditEmployee: function(oEvent) {
+          const sPath = oEvent
+            .getSource()
+            .getBindingContext()
+            .getPath();
+
+          this.getRouter().navTo("create", {
+            objectId: sPath.slice("/Employees".length)
+          });
+        },
+
         onNavBack: function() {
           var sPreviousHash = History.getInstance().getPreviousHash();
           if (sPreviousHash !== undefined) {
@@ -51,50 +62,14 @@ sap.ui.define(
         },
 
         _onObjectMatched: function(oEvent) {
-          var sObjectId = oEvent.getParameter("arguments").objectId;
-
-          this._bindView("/Employees" + sObjectId);
-        },
-
-        _bindView: function(sObjectPath) {
-          var oViewModel = this.getModel("objectView");
+          const sObjectId = oEvent.getParameter("arguments").objectId;
 
           this.setListBinding(
             "Records",
             this.byId("recordsTable").getBinding("items")
           );
 
-          this.getView().bindElement({
-            path: sObjectPath,
-            events: {
-              change: this._onBindingChange.bind(this),
-              dataRequested: function() {
-                oViewModel.setProperty("/busy", true);
-              },
-              dataReceived: function() {
-                oViewModel.setProperty("/busy", false);
-              }
-            }
-          });
-        },
-
-        _onBindingChange: function() {
-          var oView = this.getView(),
-            oViewModel = this.getModel("objectView"),
-            oElementBinding = oView.getElementBinding();
-
-          // No data for the binding
-          if (!oElementBinding.getBoundContext()) {
-            this.getRouter()
-              .getTargets()
-              .display("objectNotFound");
-            return;
-          }
-
-          oView
-            .getBindingContext()
-            .requestObject()
-            .then(() => oViewModel.setProperty("/busy", false));
+          this._bindView("/Employees" + sObjectId);
         }
       }
     );

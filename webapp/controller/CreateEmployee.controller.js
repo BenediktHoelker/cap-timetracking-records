@@ -4,9 +4,8 @@ sap.ui.define(
     "use strict";
 
     const INITIAL_DATA = {
-      newEntity: {
-        name: ""
-      }
+      mode: "CREATE",
+      projectToAdd: ""
     };
 
     return BaseController.extend(
@@ -22,29 +21,46 @@ sap.ui.define(
             .attachPatternMatched(this._onRouteMatched, this);
         },
 
-        _onRouteMatched: function() {
-          this.getModel("viewModel").setData(this._deepClone(INITIAL_DATA));
+        _onRouteMatched: function(oEvent) {
+          const oViewModel = this.getModel("viewModel");
+          const sObjectId = oEvent.getParameter("arguments").objectId;
+          let sPath = "/Employees" + sObjectId;
+
+          if (!sObjectId) {
+            sPath = this.getListBinding("Employees").create();
+          }
+
+          oViewModel.setData(this._deepClone(INITIAL_DATA));
+
+          this._bindView(sPath);
         },
 
-        onPressSave: function() {
-          const oNewEmployee = this.getModel("viewModel").getProperty(
-            "/newEntity"
+        onPressDeleteProject: function() {
+          const oTable = this.byId("projectsList");
+          const aSelectedContexts = oTable.getSelectedContexts();
+
+          aSelectedContexts.forEach(oContext => oContext.delete());
+        },
+
+        onPressAddProject: function() {
+          this._getFragment("AddProjectDialog").then(oDialog => oDialog.open());
+        },
+
+        addProject: function(oEvent) {
+          const oEmployee = this.getView()
+            .getBindingContext()
+            .getObject();
+
+          const sProjectToAdd = this.getModel("viewModel").getProperty(
+            "/projectToAdd"
           );
 
-          oNewEmployee.projects = this.byId("projectsSelect")
-            .getSelectedItems()
-            .map(item => item.getBindingContext().getObject())
-            .map(project => ({
-              projectID: project.ID,
-              title: project.title,
-              description: project.description
-            }));
-
-          const oContext = this.getListBinding("Employees").create(
-            oNewEmployee
-          );
-
-          oContext.created().then(() => this.getRouter().navTo("worklist"));
+          this.byId("projectsList")
+            .getBinding("items")
+            .create({
+              project_ID: sProjectToAdd,
+              employee_ID: oEmployee.ID
+            });
         },
 
         onPressCancel: function() {

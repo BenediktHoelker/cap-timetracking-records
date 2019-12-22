@@ -1,9 +1,10 @@
 sap.ui.define(
   [
     "sap/ui/core/mvc/Controller",
+    "sap/ui/core/Fragment",
     "sap/ui/core/UIComponent"
   ],
-  function(Controller, UIComponent) {
+  function(Controller, Fragment, UIComponent) {
     "use strict";
 
     return Controller.extend(
@@ -46,6 +47,73 @@ sap.ui.define(
           return this.getOwnerComponent()
             .getModel("i18n")
             .getResourceBundle();
+        },
+
+        submitBatch: function(sGroupId) {
+          var oView = this.getView();
+
+          oView.setBusy(true);
+
+          return oView
+            .getModel()
+            .submitBatch(sGroupId)
+            .finally(() => oView.setBusy(false));
+        },
+
+        _getFragment: function(sFragmentName) {
+          const sVariableName = "_o" + sFragmentName + "Fragment";
+          const oFragment = this[sVariableName];
+          const oAncestorView = this.getView();
+
+          if (oFragment) {
+            return Promise.resolve(oFragment);
+          } else {
+            return Fragment.load({
+              id: sFragmentName,
+              name: "iot.timetracking-worklist.view.dialogs." + sFragmentName,
+              controller: this
+            }).then(oLoadedFragment => {
+              this[sVariableName] = oLoadedFragment;
+              oAncestorView.addDependent(oLoadedFragment);
+
+              return oLoadedFragment;
+            });
+          }
+        },
+
+        closeDialog: function(oEvent) {
+          const oDialog = oEvent.getSource().getParent();
+          oDialog.close();
+        },
+
+        _bindView: function(sObjectPath) {
+          const oView = this.getView();
+
+          this.getView().bindElement({
+            path: sObjectPath,
+            events: {
+              change: this._onBindingChange.bind(this),
+              dataRequested: () => oView.setBusy(true),
+              dataReceived: () => oView.setBusy(false)
+            }
+          });
+        },
+
+        _onBindingChange: function() {
+          const oView = this.getView();
+          const oElementBinding = oView.getElementBinding();
+
+          // No data for the binding
+          if (!oElementBinding.getBoundContext()) {
+            return this.getRouter()
+              .getTargets()
+              .display("objectNotFound");
+          }
+
+          oView
+            .getBindingContext()
+            .requestObject()
+            .then(() => oView.setBusy(false));
         }
       }
     );

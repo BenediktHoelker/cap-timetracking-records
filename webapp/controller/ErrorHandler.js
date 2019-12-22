@@ -61,10 +61,10 @@ sap.ui.define([
 		_showServiceError : function (sErrorTitle, sDetails) {
 			this._bMessageOpen = true;
 			MessageBox.error(
-				sErrorTitle,
+				sDetails,
 				{
 					id : "serviceErrorMessageBox",
-					details: sDetails,
+					// details: sDetails,
 					styleClass: this._oComponent.getContentDensityClass(),
 					actions: [MessageBox.Action.CLOSE],
 					onClose: function () {
