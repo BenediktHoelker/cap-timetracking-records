@@ -49,17 +49,6 @@ sap.ui.define(
             .getResourceBundle();
         },
 
-        submitBatch: function(sGroupId) {
-          var oView = this.getView();
-
-          oView.setBusy(true);
-
-          return oView
-            .getModel()
-            .submitBatch(sGroupId)
-            .finally(() => oView.setBusy(false));
-        },
-
         _getFragment: function(sFragmentName) {
           const sVariableName = "_o" + sFragmentName + "Fragment";
           const oFragment = this[sVariableName];
@@ -85,6 +74,10 @@ sap.ui.define(
           const oDialog = oEvent.getSource().getParent();
           oDialog.close();
         },
+
+        onPressCancel: function() {
+          history.go(-1);
+        }
 
         _bindView: function(sObjectPath) {
           const oView = this.getView();

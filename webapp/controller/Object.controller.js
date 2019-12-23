@@ -24,6 +24,17 @@ sap.ui.define(
           this.setModel(oViewModel, "objectView");
         },
 
+        onPressEditRecord: function(oEvent) {
+          const sPath = oEvent
+            .getSource()
+            .getBindingContext()
+            .getPath();
+
+          this.getRouter().navTo("createRecord", {
+            objectId: sPath.split('/records')[1]
+          });
+        },
+
         onPressDeleteRecord: function(oEvent) {
           const oTable = this.byId("recordsTable");
           const aSelectedContexts = oTable.getSelectedContexts();
@@ -35,9 +46,7 @@ sap.ui.define(
             .getBindingContext()
             .getObject();
 
-          this.getRouter()
-            .getTargets()
-            .display("createRecord", { employee: oEmployee.ID });
+          this.getRouter().navTo("createRecord", { employee: oEmployee.ID });
         },
 
         onPressEditEmployee: function(oEvent) {
@@ -46,7 +55,7 @@ sap.ui.define(
             .getBindingContext()
             .getPath();
 
-          this.getRouter().navTo("create", {
+          this.getRouter().navTo("createEmployee", {
             objectId: sPath.slice("/Employees".length)
           });
         },

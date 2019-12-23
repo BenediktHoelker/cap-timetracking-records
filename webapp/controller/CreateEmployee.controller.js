@@ -4,7 +4,6 @@ sap.ui.define(
     "use strict";
 
     const INITIAL_DATA = {
-      mode: "CREATE",
       projectToAdd: ""
     };
 
@@ -12,12 +11,12 @@ sap.ui.define(
       "iot.timetracking-worklist.controller.CreateEmployee",
       {
         onInit: function() {
-          const oViewModel = new JSONModel(this._deepClone(INITIAL_DATA));
+          const oViewModel = new JSONModel(INITIAL_DATA);
 
           this.getView().setModel(oViewModel, "viewModel");
 
           this.getRouter()
-            .getRoute("create")
+            .getRoute("createEmployee")
             .attachPatternMatched(this._onRouteMatched, this);
         },
 
@@ -30,7 +29,7 @@ sap.ui.define(
             sPath = this.getListBinding("Employees").create();
           }
 
-          oViewModel.setData(this._deepClone(INITIAL_DATA));
+          oViewModel.setData(INITIAL_DATA);
 
           this._bindView(sPath);
         },
@@ -61,10 +60,6 @@ sap.ui.define(
               project_ID: sProjectToAdd,
               employee_ID: oEmployee.ID
             });
-        },
-
-        onPressCancel: function() {
-          history.go(-1);
         }
       }
     );

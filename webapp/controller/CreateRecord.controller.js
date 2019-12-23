@@ -15,41 +15,31 @@ sap.ui.define(
       "iot.timetracking-worklist.controller.CreateRecord",
       {
         onInit: function() {
-          const oViewModel = new JSONModel(this._deepClone(INITIAL_DATA));
+          const oViewModel = new JSONModel(INITIAL_DATA);
 
           this.getView().setModel(oViewModel, "viewModel");
 
           this.getRouter()
-            .getTargets()
-            .getTarget("createRecord")
-            .attachDisplay(this._onDisplay, this);
+            .getRoute("createRecord")
+            .attachPatternMatched(this._onRouteMatched, this);
         },
 
-        _onDisplay: function(oEvent) {
-          this.getView().bindElement(
-            `/Employees(${oEvent.getParameter("data").employee})`
-          );
+        _onRouteMatched: function(oEvent) {
+          const oViewModel = this.getModel("viewModel");
+          const sObjectId = oEvent.getParameter("arguments").objectId;
 
-          this.getModel("viewModel").setData(this._deepClone(INITIAL_DATA));
-        },
+          let sPath = "/Records" + sObjectId;
 
-        onPressSave: function() {
-          const oNewRecord = this.getModel("viewModel").getProperty(
-            "/newRecord"
-          );
-          const oContext = this.getListBinding("Records").create(oNewRecord);
-
-          oContext
-            .created()
-            .then(oContext => {
-              this.getListBinding("Employees", "/Employees").refresh();
-              console.log(oContext);
+          Promise.resolve()
+            .then(() => {
+              if (sObjectId) {
+                return sPath;
+              } else {
+                const oContext = this.getListBinding("Records").create();
+                return oContext.created().then(() => oContext.getPath());
+              }
             })
-            .then(() => history.go(-1));
-        },
-
-        onPressCancel: function() {
-          history.go(-1);
+            .then(path => this._bindView(path));
         }
       }
     );

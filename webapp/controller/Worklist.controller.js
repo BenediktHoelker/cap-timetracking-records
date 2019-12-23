@@ -27,10 +27,9 @@ sap.ui.define(
         },
 
         onAfterRendering: function() {
-          this.setListBinding(
-            "Employees",
-            this.byId("table").getBinding("items")
-          );
+          const oItemsBinding = this.byId("table").getBinding("items");
+          this.getModel().refresh();
+          this.setListBinding("Employees", oItemsBinding);
         },
 
         onPressDelete: function(oEvent) {
@@ -43,7 +42,7 @@ sap.ui.define(
           let sTitle = this.getResourceBundle().getText("worklistTableTitle");
           const oTable = oEvent.getSource();
           const iTotalItems = oEvent.getParameter("total");
-          
+
           if (iTotalItems && oTable.getBinding("items").isLengthFinal()) {
             sTitle = this.getResourceBundle().getText(
               "worklistTableTitleCount",
@@ -67,7 +66,7 @@ sap.ui.define(
         },
 
         onPressAdd: function() {
-          this.getRouter().navTo("create");
+          this.getRouter().navTo("createRecord");
         },
 
         onSearch: function(oEvent) {

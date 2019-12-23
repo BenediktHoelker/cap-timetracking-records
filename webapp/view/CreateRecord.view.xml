@@ -7,21 +7,19 @@
     <form:SimpleForm editable="true">
       <!-- <Label labelFor="nameInput" text="{/##Employees/name@com.sap.vocabularies.Common.v1.Label}"/> -->
       <Label labelFor="titleInput" text="Titel"/>
-      <Input id="titleInput" value="{viewModel>/newRecord/title}"/>
+      <Input id="titleInput" value="{title}"/>
       <Label labelFor="descInput" text="Description"/>
-      <Input id="descInput" value="{viewModel>/newRecord/description}"/>
+      <Input id="descInput" value="{description}"/>
       <Label labelFor="projectInput" text="Project"/>
-      <Select id="projectSelect" forceSelection="false" selectedKey="{viewModel>/newRecord/project_ID}" items="{projects}">
+      <Select id="projectSelect" forceSelection="true" selectedKey="{project_ID}" items="{employee/projects}">
         <core:Item text="{project/title}" key="{project/ID}"/>
-      </Select>
+      </Select> 
       <Label labelFor="durationInput" text="Duration"/>
-      <Input id="durationInput" value="{viewModel>/newRecord/time}" type="Number"/>
+      <StepInput id="durationInput" value="{time}"/>
     </form:SimpleForm>
     <footer>
       <Toolbar>
-        <ToolbarSpacer/>
-        <Button text="Speichern" press="onPressSave" type="Emphasized"/>
-        <Button text="Abbrechen" press="onPressCancel"/>
+        <Button text="Zurück" press="onPressCancel"/>
       </Toolbar>
     </footer>
   </Page>

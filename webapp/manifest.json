@@ -101,10 +101,17 @@
 					]
 				},
 				{
-					"pattern": "create/:objectId:",
-					"name": "create",
+					"pattern": "createEmployee/:objectId:",
+					"name": "createEmployee",
 					"target": [
-						"create"
+						"createEmployee"
+					]
+				},
+				{
+					"pattern": "createRecord/:objectId:",
+					"name": "createRecord",
+					"target": [
+						"createRecord"
 					]
 				},
 				{
@@ -128,16 +135,16 @@
 					"viewLevel": 2,
 					"title": "{i18n>objectViewTitle}"
 				},
-				"create": {
+				"createEmployee": {
 					"viewName": "CreateEmployee",
-					"viewId": "create",
-					"viewLevel": 2,
+					"viewId": "createEmployee",
+					"viewLevel": 3,
 					"title": "{i18n>objectViewTitle}"
 				},
 				"createRecord": {
 					"viewName": "CreateRecord",
 					"viewId": "createRecord",
-					"viewLevel": 2,
+					"viewLevel": 4,
 					"title": "{i18n>objectViewTitle}"
 				},
 				"objectNotFound": {
