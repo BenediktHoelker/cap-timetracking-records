@@ -3,13 +3,7 @@ sap.ui.define(
   function(BaseController, JSONModel, MessageToast) {
     "use strict";
 
-    const INITIAL_DATA = {
-      newRecord: {
-        title: "",
-        description: "",
-        time: 0
-      }
-    };
+    const INITIAL_DATA = {};
 
     return BaseController.extend(
       "iot.timetracking-worklist.controller.CreateRecord",

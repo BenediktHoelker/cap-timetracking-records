@@ -3,7 +3,7 @@
 	xmlns:mvc="sap.ui.core.mvc">
 	<Page title="{name}" id="page" busyIndicatorDelay="{objectView>/delay}">
 		<content>
-			<Table id="recordsTable" items="{
+			<Table id="recordsTable" fixedLayout="false" items="{
 					path: 'records',
 					sorter: {	
 						path: 'title'
@@ -11,6 +11,7 @@
 				}" mode="MultiSelect" noDataText="{worklistView>/tableNoDataText}" growing="true" growingScrollToLoad="true">
 				<headerToolbar>
 					<Toolbar>
+						<Title text="Arbeitszeit" width="100%"/>
 						<ToolbarSpacer />
 						<Button icon="sap-icon://add" press="onPressAddRecord"/>
 						<Button icon="sap-icon://delete" press="onPressDeleteRecord"/>
@@ -18,20 +19,16 @@
 				</headerToolbar>
 				<columns>
 					<Column>
-						<Text text="Title"/>
+						<Text text="Tätigkeit"/>
 					</Column>
-					<Column>
-						<Text text="Description"/>
-					</Column>
-					<Column>
-						<Text text="Duration"/>
+					<Column hAlign="End">
+						<Text text="Dauer"/>
 					</Column>
 				</columns>
 				<items>
 					<ColumnListItem type="Navigation" press=".onPressEditRecord">
 						<cells>
-							<ObjectIdentifier title="{title}"/>
-							<Text text="{description}"/>
+							<ObjectIdentifier title="{title}" text="{description}"/>
 							<ObjectNumber number="{time}"/>
 						</cells>
 					</ColumnListItem>

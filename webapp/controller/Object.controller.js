@@ -18,9 +18,11 @@ sap.ui.define(
             busy: true,
             delay: 0
           });
+
           this.getRouter()
             .getRoute("object")
             .attachPatternMatched(this._onObjectMatched, this);
+            
           this.setModel(oViewModel, "objectView");
         },
 

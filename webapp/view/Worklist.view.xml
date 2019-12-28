@@ -5,7 +5,7 @@
 
 	<Page id="page" title="Zeiterfassung">
 		<content>
-			<Table id="table" width="auto" items="{
+			<Table id="table" width="auto" fixedLayout="false" items="{
 					path: '/Employees',
 					sorter: {
 						path: 'name',
@@ -15,7 +15,7 @@
 
 				<headerToolbar>
 					<Toolbar>
-						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}"/>
+						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}" width="100%"/>
 						<ToolbarSpacer />
 						<SearchField id="searchField" tooltip="{i18n>worklistSearchTooltip}" search=".onSearch"/>
 						<Button icon="sap-icon://add" press="onPressAdd"/>
@@ -27,13 +27,13 @@
 					<Column id="nameColumn">
 						<Text text="Name" id="nameColumnTitle"/>
 					</Column>
-					<Column>
+					<Column hAlign="End">
 						<Text text="Anzahl Einträge"/>
 					</Column>
-					<Column>
+					<Column hAlign="End">
 						<Text text="Fakt.-stunden"/>
 					</Column>
-					<Column>
+					<Column hAlign="End">
 						<Text text="Bonus"/>
 					</Column>
 				</columns>

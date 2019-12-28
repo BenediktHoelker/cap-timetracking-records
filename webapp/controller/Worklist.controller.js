@@ -22,14 +22,18 @@ sap.ui.define(
               "worklistTableTitle"
             )
           });
-
+          
           this.setModel(oViewModel, "worklistView");
         },
+        
+        onAfterRendering: function(){
+          this.getRouter()
+            .getRoute("worklist")
+            .attachPatternMatched(this._onRouteMatched, this);
+        },
 
-        onAfterRendering: function() {
-          const oItemsBinding = this.byId("table").getBinding("items");
-          this.getModel().refresh();
-          this.setListBinding("Employees", oItemsBinding);
+        _onRouteMatched: function() {
+          this.byId("table").getBinding("items").refresh();
         },
 
         onPressDelete: function(oEvent) {
@@ -78,7 +82,7 @@ sap.ui.define(
 
             if (sQuery && sQuery.length > 0) {
               aTableSearchState = [
-                new Filter("surname", FilterOperator.Contains, sQuery)
+                new Filter("name", FilterOperator.Contains, sQuery)
               ];
             }
             this._applySearch(aTableSearchState);
@@ -97,7 +101,6 @@ sap.ui.define(
             .requestCanonicalPath()
             .then(sObjectPath =>
               this.getRouter().navTo("object", {
-                objectId_Old: oItem.getBindingContext().getProperty("ID"),
                 objectId: sObjectPath.slice("/Employees".length)
               })
             );

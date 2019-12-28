@@ -77,7 +77,7 @@ sap.ui.define(
 
         onPressCancel: function() {
           history.go(-1);
-        }
+        },
 
         _bindView: function(sObjectPath) {
           const oView = this.getView();
