@@ -25,16 +25,16 @@
 
 				<columns>
 					<Column id="nameColumn">
-						<Text text="Name" id="nameColumnTitle"/>
+						<Text text="Mitarbeiter" wrapping="false" id="nameColumnTitle"/>
 					</Column>
 					<Column hAlign="End">
 						<Text text="Anzahl Einträge"/>
 					</Column>
 					<Column hAlign="End">
-						<Text text="Fakt.-stunden"/>
+						<Text text="Faktura" wrapping="false"/>
 					</Column>
 					<Column hAlign="End">
-						<Text text="Bonus"/>
+						<Text text="Bonus" wrapping="false"/>
 					</Column>
 				</columns>
 

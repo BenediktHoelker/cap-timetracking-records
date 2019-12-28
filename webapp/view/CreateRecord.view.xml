@@ -8,14 +8,20 @@
       <!-- <Label labelFor="nameInput" text="{/##Employees/name@com.sap.vocabularies.Common.v1.Label}"/> -->
       <Label labelFor="titleInput" text="Titel"/>
       <Input id="titleInput" value="{title}"/>
-      <Label labelFor="descInput" text="Description"/>
+      <Label labelFor="descInput" text="Beschreibung"/>
       <Input id="descInput" value="{description}"/>
-      <Label labelFor="projectInput" text="Project"/>
+      <Label labelFor="projectInput" text="Projekt"/>
       <Select id="projectSelect" forceSelection="true" selectedKey="{project_ID}" items="{employee/projects}">
         <core:Item text="{project/title}" key="{project/ID}"/>
-      </Select> 
-      <Label labelFor="durationInput" text="Duration"/>
+      </Select>
+      <Label labelFor="dateInput" text="Datum"/>
+      <DatePicker id="dateInput" value="{date}"/>
+      <Label labelFor="durationInput" text="Dauer"/>
       <StepInput id="durationInput" value="{time}"/>
+      <Label labelFor="statusSelect" text="Status"/>
+      <Select id="statusSelect" selectedKey="{status_ID}" items="{/RecordStatus}">
+        <core:Item text="{text}" key="{ID}"/>
+      </Select>
     </form:SimpleForm>
     <footer>
       <Toolbar>
