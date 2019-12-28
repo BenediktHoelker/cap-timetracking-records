@@ -29,11 +29,23 @@ sap.ui.define(
               if (sObjectId) {
                 return sPath;
               } else {
-                const oContext = this.getListBinding("Records").create();
-                return oContext.created().then(() => oContext.getPath());
+                return this._createRecord();
               }
             })
             .then(path => this._bindView(path));
+        },
+
+        _createRecord: function() {
+          const dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+            pattern: "yyyy-MM-dd"
+          });
+          const dateFormatted = dateFormat.format(new Date());
+          const oContext = this.getListBinding("Records").create({
+            date: dateFormatted,
+            status_ID: "c567cd98-e988-4d05-9116-c62dbf4b76df"
+          });
+
+          return oContext.created().then(() => oContext.getPath());
         }
       }
     );

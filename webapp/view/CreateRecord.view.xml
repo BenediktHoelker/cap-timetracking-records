@@ -18,10 +18,6 @@
       <DatePicker id="dateInput" value="{date}"/>
       <Label labelFor="durationInput" text="Dauer"/>
       <StepInput id="durationInput" value="{time}"/>
-      <Label labelFor="statusSelect" text="Status"/>
-      <Select id="statusSelect" selectedKey="{status_ID}" items="{/RecordStatus}">
-        <core:Item text="{text}" key="{ID}"/>
-      </Select>
     </form:SimpleForm>
     <footer>
       <Toolbar>

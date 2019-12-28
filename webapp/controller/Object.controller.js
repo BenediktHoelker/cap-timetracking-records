@@ -23,7 +23,7 @@ sap.ui.define(
             .getRoute("object")
             .attachPatternMatched(this._onObjectMatched, this);
             
-          this.setModel(oViewModel, "objectView");
+          this.setModel(oViewModel, "viewModel");
         },
 
         onPressEditRecord: function(oEvent) {
