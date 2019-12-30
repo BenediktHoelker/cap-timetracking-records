@@ -101,21 +101,7 @@
 					]
 				},
 				{
-					"pattern": "createEmployee/:objectId:",
-					"name": "createEmployee",
-					"target": [
-						"createEmployee"
-					]
-				},
-				{
-					"pattern": "createRecord/:objectId:",
-					"name": "createRecord",
-					"target": [
-						"createRecord"
-					]
-				},
-				{
-					"pattern": "Employees/{objectId}",
+					"pattern": "Records/{objectId}",
 					"name": "object",
 					"target": [
 						"object"
@@ -127,24 +113,12 @@
 					"viewName": "Worklist",
 					"viewId": "worklist",
 					"viewLevel": 1,
-					"title": "{i18n>worklistViewTitle}"
+					"title": "{i18n>viewModelTitle}"
 				},
 				"object": {
 					"viewName": "Object",
 					"viewId": "object",
 					"viewLevel": 2,
-					"title": "{i18n>objectViewTitle}"
-				},
-				"createEmployee": {
-					"viewName": "CreateEmployee",
-					"viewId": "createEmployee",
-					"viewLevel": 3,
-					"title": "{i18n>objectViewTitle}"
-				},
-				"createRecord": {
-					"viewName": "CreateRecord",
-					"viewId": "createRecord",
-					"viewLevel": 4,
 					"title": "{i18n>objectViewTitle}"
 				},
 				"objectNotFound": {

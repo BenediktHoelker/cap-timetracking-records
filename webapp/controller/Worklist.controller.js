@@ -4,9 +4,17 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "../model/formatter",
     "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator"
+    "sap/ui/model/FilterOperator",
+    "sap/m/MessageToast"
   ],
-  function(BaseController, JSONModel, formatter, Filter, FilterOperator) {
+  function(
+    BaseController,
+    JSONModel,
+    formatter,
+    Filter,
+    FilterOperator,
+    MessageToast
+  ) {
     "use strict";
 
     return BaseController.extend(
@@ -16,48 +24,19 @@ sap.ui.define(
 
         onInit: function() {
           this._aTableSearchState = [];
-
-          const oViewModel = new JSONModel({
-            worklistTableTitle: this.getResourceBundle().getText(
-              "worklistTableTitle"
-            )
-          });
-          
-          this.setModel(oViewModel, "worklistView");
+          this.setModel(new JSONModel(), "viewModel");
         },
-        
-        onAfterRendering: function(){
+
+        onAfterRendering: function() {
           this.getRouter()
             .getRoute("worklist")
             .attachPatternMatched(this._onRouteMatched, this);
         },
 
         _onRouteMatched: function() {
-          this.byId("table").getBinding("items").refresh();
-        },
-
-        onPressDelete: function(oEvent) {
-          const oTable = this.byId("table");
-          const aSelectedContexts = oTable.getSelectedContexts();
-          aSelectedContexts.forEach(oContext => oContext.delete());
-        },
-
-        onUpdateFinished: function(oEvent) {
-          let sTitle = this.getResourceBundle().getText("worklistTableTitle");
-          const oTable = oEvent.getSource();
-          const iTotalItems = oEvent.getParameter("total");
-
-          if (iTotalItems && oTable.getBinding("items").isLengthFinal()) {
-            sTitle = this.getResourceBundle().getText(
-              "worklistTableTitleCount",
-              [iTotalItems]
-            );
-          }
-
-          this.getModel("worklistView").setProperty(
-            "/worklistTableTitle",
-            sTitle
-          );
+          this.byId("table")
+            .getBinding("items")
+            .refresh();
         },
 
         onPress: function(oEvent) {
@@ -69,8 +48,32 @@ sap.ui.define(
           history.go(-1);
         },
 
-        onPressAdd: function() {
-          this.getRouter().navTo("createRecord");
+        onPressCreateInvoice: function() {
+          const oTable = this.byId("table");
+
+          const aItems = oTable
+            .getSelectedItems()
+            .map(item => item.getBindingContext().getObject())
+            .filter(record => record.status === "INITIAL")
+            .map(record => ({ record_ID: record.ID }));
+
+          if (aItems.length === 0) {
+            return MessageToast.show("Keine offenen Positionen ausgewählt.");
+          }
+
+          const oContext = this.getModel()
+            .bindList("/Invoices")
+            .create({
+              ID: this._generateUUID(),
+              items: aItems
+            });
+
+          oContext.created().then(() => {
+            oTable.getBinding("items").refresh();
+            MessageToast.show(
+              `Rechnung für ${aItems.length} Positionen erzeugt.`
+            );
+          });
         },
 
         onSearch: function(oEvent) {
@@ -101,14 +104,14 @@ sap.ui.define(
             .requestCanonicalPath()
             .then(sObjectPath =>
               this.getRouter().navTo("object", {
-                objectId: sObjectPath.slice("/Employees".length)
+                objectId: sObjectPath.slice("/Records".length)
               })
             );
         },
 
         _applySearch: function(aTableSearchState) {
           const oTable = this.byId("table");
-          const oViewModel = this.getModel("worklistView");
+          const oViewModel = this.getModel("viewModel");
 
           oTable.getBinding("items").filter(aTableSearchState, "Application");
 

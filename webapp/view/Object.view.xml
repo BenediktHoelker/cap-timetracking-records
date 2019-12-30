@@ -8,7 +8,7 @@
 					sorter: {	
 						path: 'title'
 					}
-				}" mode="MultiSelect" noDataText="{worklistView>/tableNoDataText}" growing="true" growingScrollToLoad="true">
+				}" mode="MultiSelect" noDataText="{viewModel>/tableNoDataText}" growing="true" growingScrollToLoad="true">
 				<headerToolbar>
 					<Toolbar>
 						<Title text="Arbeitszeit" width="100%"/>

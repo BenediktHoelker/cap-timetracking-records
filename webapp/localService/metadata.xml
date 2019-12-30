@@ -11,7 +11,7 @@
 	<edmx:DataServices>
 		<Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="TimetrackingService">
 			<EntityContainer Name="EntityContainer">
-				<EntitySet Name="Employees" EntityType="TimetrackingService.Employees">
+				<EntitySet Name="Records" EntityType="TimetrackingService.Records">
 					<NavigationPropertyBinding Path="records" Target="Records"/>
 				</EntitySet>
 				<EntitySet Name="Packages" EntityType="TimetrackingService.Packages">
@@ -21,11 +21,11 @@
 					<NavigationPropertyBinding Path="packages" Target="Packages"/>
 				</EntitySet>
 				<EntitySet Name="Records" EntityType="TimetrackingService.Records">
-					<NavigationPropertyBinding Path="employee" Target="Employees"/>
+					<NavigationPropertyBinding Path="employee" Target="Records"/>
 					<NavigationPropertyBinding Path="project" Target="Projects"/>
 				</EntitySet>
 			</EntityContainer>
-			<EntityType Name="Employees">
+			<EntityType Name="Records">
 				<Key>
 					<PropertyRef Name="ID"/>
 				</Key>
@@ -77,7 +77,7 @@
 				<Property Name="title" Type="Edm.String"/>
 				<Property Name="description" Type="Edm.String"/>
 				<Property Name="duration" Type="Edm.Decimal" Scale="2" Precision="4"/>
-				<NavigationProperty Name="employee" Type="TimetrackingService.Employees" Partner="records">
+				<NavigationProperty Name="employee" Type="TimetrackingService.Records" Partner="records">
 					<ReferentialConstraint Property="employee_ID" ReferencedProperty="ID"/>
 				</NavigationProperty>
 				<NavigationProperty Name="project" Type="TimetrackingService.Projects">
@@ -86,10 +86,10 @@
 				<Property Name="employee_ID" Type="Edm.Guid"/>
 				<Property Name="project_ID" Type="Edm.Guid"/>
 			</EntityType>
-			<Annotations Target="TimetrackingService.Employees/recordsCount">
+			<Annotations Target="TimetrackingService.Records/recordsCount">
 				<Annotation Term="Core.Computed" Bool="true"/>
 			</Annotations>
-			<Annotations Target="TimetrackingService.Employees/billableDuration">
+			<Annotations Target="TimetrackingService.Records/billableDuration">
 				<Annotation Term="Core.Computed" Bool="true"/>
 			</Annotations>
 			<Annotations Target="TimetrackingService.Packages/modifiedAt">

@@ -1,21 +1,33 @@
-sap.ui.define([] , function () {
-	"use strict";
+sap.ui.define([], function() {
+  "use strict";
 
-	return {
+  return {
+    statusIcon: function(sStatus) {
+      switch (sStatus) {
+        case "INITIAL":
+          return "sap-icon://status-inactive";
+        case "BILLED":
+          return "sap-icon://status-completed";
+        default:
+          return "sap-icon://status-inactive";
+      }
+    },
 
-		/**
-		 * Rounds the number unit value to 2 digits
-		 * @public
-		 * @param {string} sValue the number string to be rounded
-		 * @returns {string} sValue with 2 digits rounded
-		 */
-		numberUnit : function (sValue) {
-			if (!sValue) {
-				return "";
-			}
-			return parseFloat(sValue).toFixed(2);
-		}
+    statusColour: function(sStatus) {
+      switch (sStatus) {
+        case "INITIAL":
+          return "None";
+        case "BILLED":
+          return "Success";
+        default:
+          return "None";
+      }
+    },
 
-	};
-
+    dynamicText: function(sKey) {
+      return this.getModel("i18n")
+        .getResourceBundle()
+        .getText(sKey);
+    }
+  };
 });

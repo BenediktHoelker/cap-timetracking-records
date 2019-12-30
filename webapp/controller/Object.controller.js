@@ -58,7 +58,7 @@ sap.ui.define(
             .getPath();
 
           this.getRouter().navTo("createEmployee", {
-            objectId: sPath.slice("/Employees".length)
+            objectId: sPath.slice("/Records".length)
           });
         },
 
@@ -80,7 +80,7 @@ sap.ui.define(
             this.byId("recordsTable").getBinding("items")
           );
 
-          this._bindView("/Employees" + sObjectId);
+          this._bindView("/Records" + sObjectId);
         }
       }
     );
