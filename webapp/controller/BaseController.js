@@ -83,11 +83,7 @@ sap.ui.define(
           const oDialog = oEvent.getSource().getParent();
           oDialog.close();
         },
-
-        onPressCancel: function() {
-          history.go(-1);
-        },
-
+        
         _bindView: function(sObjectPath) {
           const oView = this.getView();
 

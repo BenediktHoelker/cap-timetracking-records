@@ -99,13 +99,6 @@
 					"target": [
 						"worklist"
 					]
-				},
-				{
-					"pattern": "Records/{objectId}",
-					"name": "object",
-					"target": [
-						"object"
-					]
 				}
 			],
 			"targets": {
@@ -114,16 +107,6 @@
 					"viewId": "worklist",
 					"viewLevel": 1,
 					"title": "{i18n>viewModelTitle}"
-				},
-				"object": {
-					"viewName": "Object",
-					"viewId": "object",
-					"viewLevel": 2,
-					"title": "{i18n>objectViewTitle}"
-				},
-				"objectNotFound": {
-					"viewName": "ObjectNotFound",
-					"viewId": "objectNotFound"
 				},
 				"notFound": {
 					"viewName": "NotFound",

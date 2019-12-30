@@ -39,15 +39,6 @@ sap.ui.define(
             .refresh();
         },
 
-        onPress: function(oEvent) {
-          this._showObject(oEvent.getSource());
-        },
-
-        onNavBack: function() {
-          // eslint-disable-next-line sap-no-history-manipulation
-          history.go(-1);
-        },
-
         onPressCreateInvoice: function() {
           const oTable = this.byId("table");
 
@@ -96,17 +87,6 @@ sap.ui.define(
           this.byId("table")
             .getBinding("items")
             .refresh();
-        },
-
-        _showObject: function(oItem) {
-          oItem
-            .getBindingContext()
-            .requestCanonicalPath()
-            .then(sObjectPath =>
-              this.getRouter().navTo("object", {
-                objectId: sObjectPath.slice("/Records".length)
-              })
-            );
         },
 
         _applySearch: function(aTableSearchState) {

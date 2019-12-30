@@ -44,7 +44,7 @@
 					</Column>
 				</columns>
 				<items>
-					<ColumnListItem type="Navigation" press=".onPressEditRecord">
+					<ColumnListItem>
 						<cells>
 							<ObjectIdentifier title="{title}" text="{description}"/>
 							<Text text="{project/title}"/>
