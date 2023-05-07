@@ -8,7 +8,7 @@
     "@openui5/sap.m": "^1.70.0",
     "@openui5/sap.ui.core": "^1.70.0",
     "@openui5/themelib_sap_fiori_3": "^1.70.0",
-    "@sap/approuter": "^6.0.1",
+    "@sap/approuter": "^14.1.1",
     "mbt": "^0.3.2"
   },
   "devDependencies": {
